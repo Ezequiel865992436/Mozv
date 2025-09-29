@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>MozVendas.com</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+
+.footer {
+  background: #333;
+  color: #fff;
+  padding: 25px 5%;
+  font-size: 0.9rem;
+}
+.footer a { color: #ff4500; text-decoration: none; }
+.footer a:hover { color: #fff; }
+.footer i { margin-right: 6px; }
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+.footer-section { flex: 1 1 250px; }
+.footer-section h4 { margin-bottom: 10px; color: #ff4500; font-size: 1.1rem; }
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  border-top: 1px solid #555;
+  padding-top: 12px;
+  font-size: 0.85rem;
+}
+@media(max-width:768px){
+  .footer-container { flex-direction: column; gap: 15px; }
+}
+
+/* 🔹 Header principal */
+header {
+  background: #fff;
+  color: #ff4500;
+  padding: 8px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+nav a:hover {
+  background: #ff8c00;
+  color: #fff;
+}
+
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f4f4f6;color:#333;line-height:1.5;}
+a{text-decoration:none;color:inherit;}
+h2.section-title{margin:20px 5%;font-size:1.4rem;color:#ff4500;font-weight:700;}
+
+/* HEADER */
+header{background:#ff4500;color:#fff;padding:8px 15px;position:sticky;top:0;z-index:1000;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);display:flex;flex-direction:column;align-items:center;}
+header h1{font-size:1.5rem;margin-bottom:6px;}
+.menu-btn{position:absolute;left:20px;top:10px;font-size:2rem;cursor:pointer;display:none;}
+
+/* NAV */
+nav ul { list-style:none; display:flex; flex-wrap:wrap; gap:15px; padding:0; margin:0; width:100%; justify-content:center;}
+nav li { position:relative; }
+nav a { display:block; padding:6px 10px; color:#fff; font-weight:600; border-radius:6px; transition:.3s; }
+nav a:hover { background:rgba(255,255,255,.2); }
+
+.subcategorias {display:none;position:absolute;top:100%;left:0;background:#fff;color:#ff4500;
+  min-width:140px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.15);flex-direction:column;z-index:1000;}
+.subcategorias button {display:block;width:100%;padding:6px 12px;border:none;background:none;text-align:left;cursor:pointer;transition:.3s;}
+.subcategorias button:hover { background:#ff4500; color:#fff; }
+li:hover > .subcategorias { display:flex; }
+
+/* PESQUISA */
+.pesquisa-wrap{position:relative;width:90%;max-width:350px;margin:8px auto;}
+#pesquisa{width:100%;padding:10px 38px 10px 14px;border-radius:8px;border:1px solid #ccc;font-size:1rem;}
+.pesquisa-wrap::after{content:"🔍";position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:1.1rem;pointer-events:none;}
+
+/* BANNER */
+.banner{position:relative;height:220px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;}
+.banner img{position:absolute;width:100%;height:100%;object-fit:cover;transition:opacity 1s;}
+.banner-text{position:relative;z-index:1;font-size:1.8rem;font-weight:700;color:#fff;text-shadow:0 3px 10px rgba(0,0,0,.6);}
+
+/* CARROSSEL */
+.carousel{position:relative;margin:0 5% 25px;overflow:hidden;}
+.carousel-track{display:flex;gap:15px;overflow-x:auto;scroll-behavior:smooth;padding-bottom:10px;}
+.carousel-track::-webkit-scrollbar{height:6px;}
+.carousel-track::-webkit-scrollbar-thumb{background:#ccc;border-radius:4px;}
+.arrow-btn{position:absolute;top:50%;transform:translateY(-50%);background:#fff;border:none;font-size:24px;cursor:pointer;padding:4px 8px;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.2);}
+.arrow-btn.left{left:-12px;} .arrow-btn.right{right:-12px;}
+
+/* PRODUTO CARD */
+.produto{background:transparent;border-radius:12px;flex:0 0 150px;padding:10px;cursor:pointer;transition:.3s;box-shadow:0 2px 6px rgba(0,0,0,.1);text-align:center;position:relative;}
+.produto img{width:100%;height:200px;object-fit:contain;border-radius:8px;transition:transform .3s;}
+.produto img:hover{transform:scale(1.1);}
+.produto p{margin:6px 0;}
+.preco{color:#ff4500;font-weight:700;font-size:1rem;}
+.carrinho{position:absolute;top:6px;right:6px;font-size:18px;color:#ff4500;cursor:pointer;transition:.3s;}
+.carrinho.ativo{color:#e60073;transform:scale(1.2);}
+
+/* MODAL */
+#modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);justify-content:center;align-items:center;z-index:1000;}
+#modal-content{background:#fff;padding:20px;border-radius:12px;max-width:90vw;max-height:90vh;text-align:center;position:relative;overflow-y:auto;}
+.close-btn{position:absolute;top:10px;right:12px;font-size:24px;cursor:pointer;font-weight:bold; color: ;}
+.imagem-principal img{max-width:100%;max-height:250px;object-fit:contain;border-radius:8px;transition:transform .3s;}
+.imagem-principal img.zoomed{transform:scale(1.5);}
+.thumbnails{display:flex;justify-content:center;gap:8px;margin:12px 0;flex-wrap:wrap;}
+.thumbnails img{width:50px;height:50px;object-fit:cover;cursor:pointer;border:2px solid transparent;border-radius:6px;transition:.3s;}
+.thumbnails img.active{border-color:#ff4500;}
+.descricao{text-align:left;margin-top:12px;}
+.descricao h3{margin:6px 0;font-size:14px;border-bottom:1px solid #eee;}
+#modal-whats{display:inline-block;margin-top:10px;background:#25D366;color:#fff;padding:10px 16px;border-radius:8px;font-weight:600;text-decoration:none;}
+
+/* CARRINHO */
+#carrinho-btn{position:fixed;right:20px;bottom:20px;background:#ff4500;color:#fff;padding:12px 18px;border:none;border-radius:50px;cursor:pointer;box-shadow:0 4px 8px rgba(0,0,0,.3);z-index:1000;}
+#carrinho-btn span{background:#fff;color:#ff4500;font-weight:700;padding:2px 6px;border-radius:50%;margin-left:5px;font-size:0.9rem;}
+#carrinho{position:fixed;right:20px;bottom:70px;width:280px;background:#fff;border-radius:12px;padding:10px;box-shadow:0 4px 12px rgba(0,0,0,.2);max-height:400px;overflow-y:auto;display:none;}
+#carrinho h3{margin-bottom:8px;}
+.item-carrinho{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.item-carrinho button{background:#ff4500;color:#fff;border:none;padding:2px 6px;border-radius:4px;cursor:pointer;font-size:14px;}
+#total{font-weight:700;margin-top:6px;text-align:right;color:#ff4500;}
+#finalizar{margin-top:8px;width:100%;padding:8px 0;background:#25D366;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;}
+
+
+.carrinho{
+  width: 25px;
+}
+
+.icon{
+  width: 25px;
+}
+/* Todos os produtos */
+
+#todos-produtos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajusta automaticamente */
+  gap: 15px;
+  margin: 10px 5%;
+}
+
+#todos-produtos .card {
+  width: 100%;
+  height: 250px; /* Dimensão menor que “Mais Comprados” se quiser */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+
+
+
+
+
+
+/* RESPONSIVO */
+@media(max-width:768px){
+  .menu-btn{display:block;}
+  nav ul{flex-direction:column; display:none;}
+  nav ul.open{display:flex;}
+  nav li{width:100%;}
+  .subcategorias {position:relative; top:0; left:0; display:none; flex-wrap:wrap; gap:5px;}
+  .subcategorias button{width:48%;}
+  li.open > .subcategorias{display:flex;}
+  #carrinho{width:90%;right:5%;bottom:70px;}
+  #carrinho-btn{right:5%;bottom:15px;}
+}
+
+/* ====== TODOS OS PRODUTOS (estilo AliExpress) ====== */
+#todos-produtos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* sempre 2 no celular */
+  gap: 12px;
+  margin: 10px 5%;
+}
+
+/* 4 no tablet/desktop */
+@media (min-width: 768px) {
+  #todos-produtos {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 6 em monitores grandes */
+@media (min-width: 1200px) {
+  #todos-produtos {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* Card */
+#todos-produtos .produto {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 8px;
+  cursor: pointer;
+  transition: transform .2s;
+  text-align: left;
+}
+
+#todos-produtos .produto:hover {
+  transform: translateY(-4px);
+}
+
+/* Imagem sempre quadrada */
+#todos-produtos .produto img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Nome do produto */
+#todos-produtos .produto p {
+  margin: 6px 0;
+  font-size: 0.9rem;
+  line-height: 1.2em;
+  height: 2.4em; /* força até 2 linhas */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Preço destacado */
+#todos-produtos .produto .preco {
+  color: #ff4500;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+
+/* ============================
+   Ajustes Novidades & Mais
+   ============================ */
+#novidades .produto img, 
+#mais .produto img {
+  height: 100px;   /* imagens menores */
+  object-fit: contain;
+}
+
+#novidades .produto p, 
+#mais .produto p {
+  font-size: 0.8rem;   /* títulos compactos */
+  margin: 3px 0;
+}
+
+#novidades .produto .preco, 
+#mais .produto .preco {
+  font-size: 0.85rem;   /* preço menor */
+  color: #ff4500;
+  font-weight: 600;
+}
+
+</style>
+</head>
+<body>
+
+    <!-- 🔹 Barra de contacto -->
+<div class="top-bar">
+  <a href="https://wa.me/258865992436" target="_blank">
+    <img src="f/sapp.png" alt="WhatsApp" class="icon">
+  </a>
+  <span> +258 865992436</span>
+
+  <a href="tel:865992436">
+    <img src="f/icons8-telefone-64.png" alt="Telefone" class="icon">
+  </a>
+</div>
+
+<!-- 🔹 Header principal -->
+<header>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="menu-btn" id="menu-btn">☰</div>
+    <h1>MozVendas.com</h1>
+  </div>
+  <div class="pesquisa-wrap">
+    <input type="text" id="pesquisa" placeholder="Pesquisar produtos...">
+  </div>
+  <nav>
+    <ul id="menu-categorias-ul"></ul>
+  </nav>
+</header>
+<div class="banner" id="banner">
+  <img id="banner-img" src="banner/Bolsa.jpg" alt="Banner">
+  <div class="banner-text" id="banner-text">Promoções Especiais</div>
+</div>
+
+<h2 class="section-title">✨ Novidades</h2>
+<div class="carousel">
+  <button class="arrow-btn left" onclick="scrollCarousel('novidades',-1)">‹</button>
+  <div class="carousel-track" id="novidades"></div>
+  <button class="arrow-btn right" onclick="scrollCarousel('novidades',1)">›</button>
+</div>
+
+<h2 class="section-title">🔥 Mais Comprados</h2>
+<div class="carousel">
+  <button class="arrow-btn left" onclick="scrollCarousel('mais',-1)">‹</button>
+  <div class="carousel-track" id="mais"></div>
+  <button class="arrow-btn right" onclick="scrollCarousel('mais',1)">›</button>
+</div>
+
+<h2 class="section-title">📦 Todos os Produtos</h2>
+<div id="todos-produtos"></div>
+
+<!-- MODAL PRODUTO -->
+<div id="modal">
+  <div id="modal-content">
+    <span class="close-btn">&times;</span>
+    <div class="imagem-principal">
+      <img id="modal-img" src="" alt="">
+    </div>
+    <div class="thumbnails" id="thumbnails"></div>
+    <div class="descricao" id="descricao"></div>
+    <a id="modal-whats" href="#" target="_blank">  💬 WhatsApp</a>
+    <button id="add-carrinho" style="margin-top:10px;background:#ff4500;color:#fff;padding:8px 12px;border:none;border-radius:8px;cursor:pointer;">Adicionar ao Carrinho</button>
+  </div>
+</div>
+
+<!-- CARRINHO -->
+<button id="carrinho-btn"> <img class="carrinho" src="f/carrinho.png" alt="">  Carrinho <span id="contador-carrinho">0</span></button>
+<div id="carrinho">
+  <h3>Carrinho</h3>
+  <div id="itens-carrinho"></div>
+  <div id="total">Total: 0 MT</div>
+  <button id="finalizar">Finalizar Compra</button>
+</div>
+
+
+<footer class="footer">
+    <div class="footer-container">
+      <!-- Contato + Pagamentos -->
+      <div class="footer-section">
+        <h4>Contato & Pagamentos</h4>
+        <p>WhatsApp: +258 865992436</p>
+        <p>E-mail: seuemail@mozvendas.com</p>
+        <p>Endereço: Nampula, Moçambique</p>
+        <p>Movitel: +258 84XXXXXXX</p>
+        <p>Vodacom: +258 82XXXXXXX</p>
+      </div>
+  
+      <!-- Informações Legais + Como Funciona -->
+      <div class="footer-section">
+        <h4>Informações</h4>
+        <p><a href="#">Política de Privacidade</a></p>
+        <p><a href="#">Termos e Condições</a></p>
+        <p><a href="#">Instruções de Compra</a></p>
+        <p><a href="#">Como Funciona</a></p>
+        <p><a href="#">Reembolso / Troca</a></p>
+      </div>
+  
+      <!-- Redes Sociais + Autor -->
+      <div class="footer-section">
+        <h4>Redes Sociais</h4>
+        <p><a href="#"><i class="fab fa-facebook-f"></i> Facebook</a></p>
+        <p><a href="#"><i class="fab fa-instagram"></i> Instagram</a></p>
+        <p><a href="#"><i class="fab fa-tiktok"></i> TikTok</a></p>
+        <h4>Autor</h4>
+        <p>Desenvolvido por Izequiel Aires</p>
+      </div>
+    </div>
+  
+    <div class="footer-bottom">
+      &copy; 2025 MozVendas - Todos os direitos reservados.
+    </div>
+  </footer>
+  
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+const produtos = [
+  {
+    id: 1,
+    nome: "Bolsa Elegante",
+    preco: 1500,
+    descCurta: "Bom para tempo de sol",
+    img: "f/1 (1).jpg",
+    imagens: ["f/1 (2).jpg", "f/1 (3).jpg"],
+    desc: "Bolsa de couro sintético.",
+    categoria: "Moda",
+    subcategorias: ["Feminino"],
+    mais: true,
+    detalhes: {
+      Cor: "Preta",
+      Tamanho: "Médio",
+      Ocasião: "Casual"
+    }
+  },
+  {
+    id: 2,
+    nome: "Vestido",
+    preco: 20000,
+    img: "f/dm (1).jpg",
+    imagens: ["f/dm (1).jpg", "f/dm (2).jpg","f/dm (3).jpg","f/dm (4).jpg","f/dm (5).jpg",],
+    desc: "Vestido confortável.",
+    categoria: "Moda",
+    subcategorias: ["Femenino"],
+    mais: false, 
+    detalhes: {
+      Cor: "Branco",
+      Tamanho: "42",
+      Ocasião: "Festas"
+    }
+  },
+
+  {
+    id: 3,
+    nome: "Computador Ultra",
+    preco: "2000",
+    img: "f/Pc (1).jpg",
+    imagens: ["f/Pc (1).jpg", "f/Pc (2).jpg", "f/Pc (3).jpg", "f/Pc (4).jpg", "f/Pc (5).jpg"],
+    desc: "Computador de alto desempenho.",
+    categoria: "Computador",
+    subcategorias: ["Desktop"],
+    detalhes: {
+      Processador: "Intel Core i7",
+      RAM: "16 GB",
+      Modelo: "UltraTech 2025",
+      COR: "Preto",
+      novidade: false, mais:true,
+    } 
+  },
+
+
+  {
+    id: 4,
+    nome: "Casa de aluguel-Natikiri",
+    descCurta: "Perto das Bombas Petromoc",
+    preco: 12000,
+    img: "f/csa natikiri.jpg",
+    imagens: ["f/csa natikiri1.jpg", "f/csa natikiri2.jpg",, "f/csa natikiri3.jpg", "f/csa natikiri4.jpg"],
+    desc: "Casa melhorada. Ao pe da estrada",
+    categoria: "Casas",
+    subcategorias: ["Aluguel"],
+    novidade: true, mais:false,
+    detalhes: {
+      Quartos: "3",
+      Sala: "1",
+      Espaco: "50/20",
+      Reabilidada: "2 meses",
+    } 
+  },
+
+  {
+    id: 5,
+    nome: "Vestido de Baille",
+    preco: 25000,
+    img: "f/vestido de baile 1.jpg",
+    imagens: ["f/vestido de baile 2.jpg", "f/vestido de baile 3.jpg","f/vestido de baile 4.jpg"],
+    desc: "Vestido de Baille.",
+    categoria: "Moda femenina",
+    subcategorias: ["Vestidos"],
+    mais: true,
+    detalhes: {
+      Cor: "Preta",
+      Tamanho: "Médio",
+      Ocasião: "Casual",
+      Material: "Algodao"
+    }
+  },
+  
+  {
+    id: 6,
+    nome: "Vestido de festa",
+    preco: 900,
+    img: "f/vestido de festa (1).jpg",
+    imagens: ["f/vestido de festa (2).jpg",],
+    desc: "Vestido de festa.",
+    categoria: "Moda femenina",
+    subcategorias: ["Vestidos"],
+    novidade: true, mais:false,
+    detalhes: {
+      Cor: "Lilas",
+      Tamanho: "Médio",
+      Ocasião: "Festa",
+      Material: "Algodao"
+    }
+  },
+
+  {
+    id: 7,
+    nome: "Vestido simples",
+    preco: 1500,
+    img: "f/vestido simples 1.jpg",
+    imagens: ["f/vestido simples 1.jpg", "f/vestido simples 2.jpg","f/vestido simples 3.jpg",],
+    desc: "Vestido simples.",
+    categoria: "Moda femenina",
+    subcategorias: ["Vestidos"],
+    mais: false,novidade: true,
+    detalhes: {
+      Cor: "Leite",
+      Tamanho: "Médio",
+      Ocasião: "Festa passeios",
+      Material: "Algodao"
+    }
+  },{
+    id: 8,
+    nome: "vestido de baille ",
+    preco: 1999,
+    img: "f/vestido de baille (1).jpg",
+    imagens: ["f/vestido de baille (1).jpg","f/vestido de baille (2).jpg","f/vestido de baille (3).jpg","f/vestido de baille (4).jpg",],
+    desc: "Vestido de festa.",
+    categoria: "Moda femenina",
+    subcategorias: ["Vestidos"],
+    novidade: true, mais:false,
+    detalhes: {
+      Cor: "Violeta",
+      Tamanho: "Médio",
+      Ocasião: "Festa",
+      Material: "Algodao"
+    }
+  },
+  
+  {
+    id: 9,
+    nome: "Casa em Nacala  ",
+    preco: "120000 MT Negociavel",
+    descCurta: "Na Baixa",
+    img: "f/casa ncl.jpg",
+    imagens: ["f/f/casa ncl1.jpg","f/f/casa ncl2.jpg","f/f/casa ncl3.jpg","f/f/casa ncl4.jpg","f/f/casa ncl5.jpg",],
+    desc: "Vestido de festa.",
+    categoria: "Casas",
+    subcategorias: ["Venda"],
+  
+    detalhes: {
+      Quartos: "3",
+      Espaco: "20/40",
+      Estrad: "1 km",
+      Agua: "Tem funcionando",
+      WC: "2 fora e  dentro"
+    }
+  },
+
+
+  {
+    id: 10,
+    nome: "Fortuner ",
+    preco: "1200000 Negociavel",
+    descCurta: "100km - Cidade de nampula",
+    img: "f/carro.jpg",
+    imagens: ["f/carro.jpg", "f/carro2.jpg","f/carro3.jpg","f/carro3.jpg","f/carro4.jpg","f/carro5.jpg","f/carro6.jpg",],
+    desc: "Pronto para Andar.",
+    categoria: "Carros",
+    subcategorias: ["Venda"],
+ 
+    detalhes: {
+      Cor: "Branco",
+      Assentos: "7",
+      Combustivel: "Gasolina",
+      Km: "100",
+      Arcondiciona: "Funcionando",
+      Portas: "5"
+    }
+  },
+
+
+
+{
+  id: 11,
+  nome: "Abaya",
+  preco: 4000,
+  descCurta: "gtt ",
+  img: "f/abaya 5500  (1).jpg",
+  imagens: ["f/abaya 5500  (1).jpg","f/abaya 5500  (2).jpg","f/abaya 5500  (3).jpg","f/abaya 5500  (4).jpg","f/abaya 5500  (5).jpg",],
+  desc: "Abaya.",
+  categoria: "Moda femenina",
+  subcategorias: ["Vestidos"],
+  
+  detalhes: {
+    Cor: "Preta",
+    Tamanho: "Médio",
+    Ocasião: "Casual",
+    Material: "Algodao"
+  }
+},
+
+
+
+
+
+];
+
+let carrinho = [];
+
+const menuUl = document.getElementById("menu-categorias-ul");
+// ==== Adiciona a categoria "Todos" ====
+const liTodos = document.createElement("li");
+const aTodos = document.createElement("a");
+aTodos.href = "#";
+aTodos.textContent = "Todos";
+aTodos.onclick = e => {
+  e.preventDefault();
+  resultados.style.display = "flex";
+  resultados.innerHTML = "";
+  produtos.forEach(p => resultados.appendChild(criarCard(p)));
+};
+liTodos.appendChild(aTodos);
+menuUl.insertBefore(liTodos, menuUl.firstChild); // Coloca "Todos" como primeira opção
+
+const todosContainer = document.getElementById("todos-produtos");
+const resultados = document.createElement("div"); 
+resultados.id="resultados"; 
+resultados.style.display="none"; 
+resultados.style.flexWrap="wrap"; 
+resultados.style.gap="15px"; 
+resultados.style.margin="10px 5%"; 
+document.body.insertBefore(resultados,todosContainer);
+
+function criarCard(p){
+  const div = document.createElement("div");
+  div.className = "produto";
+
+  // Preço
+  let precoText = p.preco
+    ? (typeof p.preco === 'number' ? p.preco + " MT" : p.preco)
+    : "Negociar";
+
+  // Conteúdo do card com nome, descrição curta e preço
+  div.innerHTML = `
+    <img src="${p.img}" alt="${p.nome}">
+    <p class="nome-produto">${p.nome}</p>
+    <p class="descricao-produto">${p.descCurta || ''}</p>
+    <p class="preco">${precoText}</p>
+  `;
+
+  // Ao clicar abre o modal
+  div.onclick = () => abrirModal(p);
+
+  return div;
+}
+function preencher(track,lista){ track.innerHTML=""; lista.forEach(p=>track.appendChild(criarCard(p))); }
+
+preencher(
+  document.getElementById("novidades"),
+  produtos.filter(p => p.novidade)
+);
+
+preencher(
+  document.getElementById("mais"),
+  produtos.filter(p => p.mais)
+);
+preencher(todosContainer,produtos);
+
+const modal = document.getElementById("modal");
+const modalImg = document.getElementById("modal-img");
+const thumbnails = document.getElementById("thumbnails");
+const descricaoDiv = document.getElementById("descricao");
+const modalWhats = document.getElementById("modal-whats");
+const addCarrinhoBtn = document.getElementById("add-carrinho");
+let produtoAtual = null;
+
+function abrirModal(p){
+  produtoAtual=p;
+  modal.style.display="flex";
+  modalImg.src=p.imagens[0];
+ // Gerar detalhes dinâmicos automaticamente
+let detalhesHTML = "";
+if (p.detalhes) {
+  detalhesHTML += "<h3>Detalhes:</h3><ul>";
+  for (const chave in p.detalhes) {
+    detalhesHTML += `<li><strong>${chave}:</strong> ${p.detalhes[chave]}</li>`;
+  }
+  detalhesHTML += "</ul>";
+}
+
+// Exibir descrição + detalhes no modal
+descricaoDiv.innerHTML = `
+  <p>${p.desc}</p>
+  ${detalhesHTML}
+`;
+let precoWhats = p.preco 
+                 ? (typeof p.preco === 'number' ? p.preco + " MT" : p.preco) 
+                 : "Negociar";
+
+modalWhats.href = `https://wa.me/258865992436?text=${encodeURIComponent(
+  "Olá, quero este produto: " + p.nome + " - " + precoWhats
+)}`;
+  thumbnails.innerHTML="";
+  p.imagens.forEach((src,i)=>{
+    const t=document.createElement("img");
+    t.src=src;
+    if(i===0) t.classList.add("active");
+    t.onclick=()=>{modalImg.src=src; thumbnails.querySelectorAll("img").forEach(im=>im.classList.remove("active")); t.classList.add("active");};
+    thumbnails.appendChild(t);
+  });
+}
+document.querySelector(".close-btn").onclick=()=>modal.style.display="none";
+window.onclick=e=>{if(e.target===modal) modal.style.display="none";};
+
+// Zoom suave ao clicar na imagem
+modalImg.onclick = () => { modalImg.classList.toggle('zoomed'); };
+
+addCarrinhoBtn.onclick=()=>{
+  const item = carrinho.find(c=>c.id===produtoAtual.id);
+  if(item) item.qtd++; else carrinho.push({id:produtoAtual.id,nome:produtoAtual.nome,preco:produtoAtual.preco,qtd:1});
+  atualizarCarrinho();
+};
+
+function atualizarIconeCarrinho() {
+  const contador = document.getElementById("contador-carrinho");
+  const totalItens = carrinho.reduce((acc, item) => acc + item.qtd, 0);
+  contador.textContent = totalItens;
+}
+
+function atualizarCarrinho(){
+  const container = document.getElementById("itens-carrinho");
+  container.innerHTML="";
+  let total = 0;
+  carrinho.forEach((item,i)=>{
+    const div = document.createElement("div"); 
+div.className = "item-carrinho";
+
+let itemPreco = typeof item.preco === "number" ? item.preco*item.qtd : item.preco;
+if(typeof item.preco === "number") total += item.preco*item.qtd;
+
+div.innerHTML = `
+  ${item.nome} (${item.qtd}) ${itemPreco}${typeof item.preco === "number" ? " MT" : ""} 
+  <button onclick="remover(${i})">✖</button>
+`;
+
+container.appendChild(div);
+  });
+  document.getElementById("total").textContent = `Total: ${total} MT`;
+  atualizarIconeCarrinho(); // atualiza o contador do carrinho
+}
+
+// Remover item do carrinho
+window.remover = i => { 
+  carrinho.splice(i,1); 
+  atualizarCarrinho(); 
+};
+
+// Abrir/Fechar carrinho
+const carrinhoBtn = document.getElementById("carrinho-btn");
+const carrinhoDiv = document.getElementById("carrinho");
+carrinhoBtn.onclick = () => { 
+  carrinhoDiv.style.display = carrinhoDiv.style.display === "block" ? "none" : "block"; 
+};
+
+// Finalizar compra via WhatsApp
+document.getElementById("finalizar").onclick = () => {
+  if(carrinho.length === 0){ alert("Carrinho vazio!"); return; }
+  let mensagem = "Olá, quero comprar:\n";
+  carrinho.forEach(item => { mensagem += `- ${item.nome} x${item.qtd} = ${item.preco*item.qtd} MT\n`; });
+  let totalCarrinho = carrinho.reduce((acc, item) => typeof item.preco === "number" ? acc + item.preco*item.qtd : acc, 0);
+mensagem += `Total: ${totalCarrinho} MT`;
+  window.open("https://wa.me/258865992436?text="+encodeURIComponent(mensagem), "_blank");
+};
+
+// Carrossel
+function autoScrollCarousel(id, distance = 160, interval = 3000) {
+  const track = document.getElementById(id);
+  setInterval(() => {
+    if(track.scrollLeft + track.clientWidth >= track.scrollWidth){
+      // Se chegou no final, volta para o começo
+      track.scrollTo({left:0, behavior:"smooth"});
+    } else {
+      track.scrollBy({left: distance, behavior:"smooth"});
+    }
+  }, interval);
+}
+
+// Ativar rolagem automática
+autoScrollCarousel('novidades', 160, 3000); // 3s por movimento
+autoScrollCarousel('mais', 160, 3000);
+
+// === Menu Categorias (substitua o bloco antigo por este) ===
+const categoriasSet = [...new Set(produtos.map(p => p.categoria))];
+
+categoriasSet.forEach(cat => {
+  const li = document.createElement('li');
+  const a = document.createElement('a');
+  a.href = "#";
+  a.textContent = cat;
+
+  // montar subcategorias
+  const subDiv = document.createElement('div');
+  subDiv.className = 'subcategorias';
+  const subsSet = new Set();
+  produtos.forEach(p => {
+    if (p.categoria === cat) (p.subcategorias || []).forEach(s => subsSet.add(s));
+  });
+
+  subsSet.forEach(sub => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = sub;
+
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // mostrar resultados filtrados
+      resultados.style.display = 'flex';
+      resultados.innerHTML = '';
+      produtos
+        .filter(p => p.categoria === cat && (p.subcategorias || []).includes(sub))
+        .forEach(p => resultados.appendChild(criarCard(p)));
+
+      // fechar menu mobile
+      menuUl.classList.remove('open');
+      const mb = document.getElementById('menu-btn');
+      if (mb) mb.textContent = '☰';
+
+      // fechar qualquer submenu aberto
+      document.querySelectorAll('#menu-categorias-ul li.open').forEach(x => x.classList.remove('open'));
+    });
+
+    subDiv.appendChild(btn);
+  });
+
+  // clique na categoria
+  a.addEventListener('click', e => {
+    // se for mobile e a categoria tem subcategorias, apenas abre/fecha o submenu
+    if (window.innerWidth <= 768 && subDiv.children.length > 0) {
+      e.preventDefault();
+      li.classList.toggle('open'); // CSS usa li.open > .subcategorias
+      return;
+    }
+
+    // caso contrário (desktop ou sem subcategorias) filtra produtos e fecha o menu
+    e.preventDefault();
+    resultados.style.display = 'flex';
+    resultados.innerHTML = '';
+    produtos.filter(p => p.categoria === cat).forEach(p => resultados.appendChild(criarCard(p)));
+
+    menuUl.classList.remove('open');
+    const mb = document.getElementById('menu-btn');
+    if (mb) mb.textContent = '☰';
+    document.querySelectorAll('#menu-categorias-ul li.open').forEach(x => x.classList.remove('open'));
+  });
+
+  li.appendChild(a);
+  if (subDiv.children.length > 0) li.appendChild(subDiv);
+  menuUl.appendChild(li);
+});
+// Menu responsivo
+document.getElementById("menu-btn").onclick = () => {
+  menuUl.classList.toggle("open");
+  document.getElementById("menu-btn").textContent = menuUl.classList.contains('open') ? '✖' : '☰';
+};
+
+// Pesquisa
+document.getElementById("pesquisa").addEventListener("input", e => {
+  const val = e.target.value.toLowerCase();
+  resultados.style.display = val ? "flex" : "none";
+  resultados.innerHTML = "";
+  produtos.filter(p =>
+    p.nome.toLowerCase().includes(val) ||
+    (p.subcategorias||[]).some(s=>s.toLowerCase().includes(val)) ||
+    p.categoria.toLowerCase().includes(val)
+  ).forEach(p => resultados.appendChild(criarCard(p)));
+});
+
+
+const bannerImg = document.getElementById("banner-img");
+const bannerText = document.getElementById("banner-text");
+
+const banners = [
+  {img:"f/ban1.jpg", texto:"Promoções Especiais"},
+  {img:"f/ban2.jpg", texto:"Novidades em Tênis"},
+  {img:"f/ban3.jpg", texto:"Relógios de Luxo"},
+  {img:"f/ban4.jpg", texto:"Mochilas Modernas"},
+];
+
+let bannerIndex = 0;
+
+function trocarBanner() {
+  // Fade out
+  bannerImg.style.opacity = 0;
+  setTimeout(() => {
+    // Troca a imagem e o texto
+    bannerIndex = (bannerIndex + 1) % banners.length;
+    bannerImg.src = banners[bannerIndex].img;
+    bannerText.textContent = banners[bannerIndex].texto;
+    // Fade in
+    bannerImg.style.opacity = 1;
+  }, 8000); // meio segundo de fade
+}
+
+// Define a transição no CSS via JS (caso ainda não tenha)
+bannerImg.style.transition = "opacity 0.8s";
+
+// Troca automática a cada 8 segundos
+setInterval(trocarBanner, 8000);
+
+
+
+</script>
+</body>
+</html>
+
